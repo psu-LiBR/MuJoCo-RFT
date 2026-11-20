@@ -16,7 +16,7 @@ Thumbs.db
 *.swp
 
 # VS Code Workspace
-.code-workspace/
+MuJoCo-RFT.code-workspace
 
 # Runtime logs and local download markers
 MUJOCO_LOG.TXT
