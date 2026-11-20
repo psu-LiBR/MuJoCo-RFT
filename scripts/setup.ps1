@@ -8,12 +8,12 @@ $ProjectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $ProjectRoot
 
 if (-not (Get-Command conda -ErrorAction SilentlyContinue)) {
-    throw "Conda is required. Install Miniforge, open a Miniforge/Conda PowerShell, and rerun this script."
+    throw "This script requires Conda. Install Miniforge, open a Miniforge/Conda PowerShell, and rerun it, or follow 'Install without Conda' in README.md to use a Python 3.11 venv."
 }
 
 if (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot "third_party\RFT-SiM.snapshot.json")) -or
     -not (Test-Path -LiteralPath (Join-Path $ProjectRoot "third_party\RFT-SiM\README.md"))) {
-    throw "Bundled RFT-SiM snapshot is missing. Download a fresh clone or ZIP of Lizard_robot."
+    throw "Bundled RFT-SiM snapshot is missing. Download a fresh clone or ZIP of MuJoCo-RFT."
 }
 Write-Host "[1/4] Using the bundled RFT-SiM snapshot (no upstream download)."
 

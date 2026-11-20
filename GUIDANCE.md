@@ -6,7 +6,8 @@ no pre-existing Python environment, and no separate MuJoCo installation.
 
 ## 0. What this repository contains
 
-Two locomotion workflows share one controller and one Conda environment:
+Two locomotion workflows share one controller and one pinned Python 3.11
+runtime (the `lizard_rft` Conda environment or an equivalent venv):
 
 | Workflow | Entry point | Geometry | Medium |
 | --- | --- | --- | --- |
@@ -24,7 +25,9 @@ The repository also contains:
 - three geometry-only videos explaining why former RFT meshes were rejected;
 - compact regression manifests and numerical evidence.
 
-The canonical environment is `lizard_rft`. IsaacLab is outside project scope.
+The default environment is the Conda environment `lizard_rft`. A project-local
+Python 3.11 venv installed from `requirements.txt` is an equivalent supported
+alternative (section 5, decision D-016). IsaacLab is outside project scope.
 
 ## 1. See the output before installing anything
 
@@ -55,7 +58,8 @@ Required:
 
 - 64-bit Windows, Linux, macOS, or WSL;
 - Git for cloning/updating, or a GitHub ZIP download;
-- a working Conda distribution;
+- a working Conda distribution, **or** a standard Python 3.11 installation
+  for the venv option in section 5;
 - enough network access to clone GitHub repositories and download Python
   wheels;
 - approximately 4 GB free disk space for the environment and repository;
@@ -76,7 +80,8 @@ or configure another MuJoCo installation for this project.
 
 ```bash
 git --version
-conda --version
+conda --version        # Conda option
+python3.11 --version   # venv option (Windows: py -3.11 --version)
 ```
 
 If `conda` is not found:
@@ -90,13 +95,14 @@ If `conda` is not found:
 Preferred:
 
 ```bash
-git clone https://github.com/wxy108/Lizard_robot.git
-cd Lizard_robot
+git clone https://github.com/psu-LiBR/MuJoCo-RFT.git
+cd MuJoCo-RFT
 ```
 
+This repository is a fork of `https://github.com/wxy108/Lizard_robot.git`.
 The outer clone-directory name is local only and is not displayed as a folder
-inside GitHub. On the original workstation, the single canonical Git root is
-`Lizard_Robot_MuJoCo`; former RFT and publication workspaces are archived.
+inside GitHub. On the original upstream workstation, the canonical Git root
+was `Lizard_Robot_MuJoCo`; former RFT and publication workspaces are archived.
 See `docs/LOCAL_WORKSPACE_LAYOUT.md`. Do not run from an archived copy.
 
 Alternatively use GitHub **Code → Download ZIP**, extract it and enter the
@@ -213,6 +219,55 @@ Verify imports manually:
 python -c "import mujoco, numpy, open3d, pymeshlab, cv2, imageio; print(mujoco.__version__, numpy.__version__, open3d.__version__)"
 ```
 
+### Without Conda: Python venv + pip
+
+Conda only supplies Python 3.11; every project dependency is a pip package.
+`requirements.txt` pins exactly the same versions as the pip section of
+`environment.yml`, so a standard virtual environment is equivalent. Use
+Python 3.11: the pinned NumPy 1.26.4 and Open3D 0.19.0 have no wheels for
+newer interpreters such as 3.13 or 3.14. The setup scripts in section 4 are
+Conda-only; run these steps by hand.
+
+Windows PowerShell:
+
+```powershell
+py -3.11 -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python scripts/verify_rft_snapshot.py
+python scripts/validate_project.py
+```
+
+If PowerShell blocks `Activate.ps1`, run
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use
+`.venv\Scripts\activate.bat` from `cmd.exe`.
+
+Linux, macOS, and WSL:
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python scripts/verify_rft_snapshot.py
+python scripts/validate_project.py
+```
+
+On headless Linux, `export MUJOCO_GL=egl` first (section 7); unlike
+`setup.sh`, the manual steps do not set it for you.
+
+With [uv](https://docs.astral.sh/uv/), `uv venv --python 3.11 .venv` can
+download Python 3.11 automatically; activate as above, then run
+`uv pip install -r requirements.txt`.
+
+To update after a pin change, activate the venv and rerun
+`python -m pip install -r requirements.txt`. To start clean, delete `.venv/`
+and repeat the steps. `.venv/` is ignored by Git.
+
+Everywhere this guide says `conda activate lizard_rft`, venv users activate
+`.venv` instead. All other commands are identical.
+
 ## 6. Expected first validation
 
 Run:
@@ -267,7 +322,7 @@ python scripts/generate_video_matrix.py --duration 6 --fps 30
 
 The setup shell detects Linux without `$DISPLAY` and sets `MUJOCO_GL=egl` for
 its validation subprocess. The variable must be set again in a later shell
-before rendering.
+before rendering. Venv users must always set it themselves.
 
 If EGL is unavailable, install the system's appropriate Mesa/EGL or GPU driver
 packages. Do not change Python dependencies first; confirm the OpenGL backend.
@@ -626,10 +681,13 @@ hash-mismatched builds.
 On a computer that has never run this project:
 
 ```bash
-git clone https://github.com/wxy108/Lizard_robot.git
-cd Lizard_robot
+git clone https://github.com/psu-LiBR/MuJoCo-RFT.git
+cd MuJoCo-RFT
 conda env create --file environment.yml
 conda activate lizard_rft
+# Without Conda, replace the two lines above with:
+#   python3.11 -m venv .venv && source .venv/bin/activate
+#   python -m pip install -r requirements.txt
 python scripts/validate_project.py
 python scripts/generate_video_matrix.py \
   --duration 6 --fps 30 \
@@ -656,7 +714,14 @@ physics checks than encoded-video bytes alone.
 ### `conda` is not recognized
 
 Open a Conda/Miniforge-specific terminal or initialize Conda for the shell.
-Confirm `conda --version` before running setup.
+Confirm `conda --version` before running setup. If you do not want Conda,
+use the venv installation in section 5 instead.
+
+### `pip` cannot find a wheel for `numpy==1.26.4` or `open3d==0.19.0`
+
+The venv was created with the wrong Python. Check `python --version` inside
+the activated venv; it must report 3.11. Delete `.venv/` and recreate it with
+`py -3.11 -m venv .venv` (Windows) or `python3.11 -m venv .venv`.
 
 ### Environment already exists
 
@@ -696,8 +761,10 @@ conda activate lizard_rft
 python -c "import mujoco; print(mujoco.__version__)"
 ```
 
+For a venv, activate `.venv` and run the same check.
+
 Do not install a separate MuJoCo application. Recreate or update the Conda
-environment instead.
+environment or venv instead.
 
 ### Interactive viewer fails on macOS
 

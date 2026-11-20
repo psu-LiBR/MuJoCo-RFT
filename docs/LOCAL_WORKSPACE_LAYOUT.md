@@ -1,6 +1,19 @@
 # Canonical local workspace and GitHub layout
 
-## One active repository
+## Active fork (since 2026-11-20)
+
+This repository is now maintained as a fork:
+
+```text
+https://github.com/psu-LiBR/MuJoCo-RFT.git
+```
+
+The active workspace is the local Git root whose `origin` is this fork. Its
+local directory name is not significant. The upstream repository and
+workstation described below are historical provenance. The rules in this
+document apply to the fork with its remote substituted. See decision D-016.
+
+## One active repository (original upstream workstation)
 
 The only active repository on the original workstation is:
 
@@ -99,6 +112,6 @@ hash-recorded media artifacts.
 
 ## Non-negotiable rule
 
-Run, edit, validate, commit, and generate output only from the Git root that
-contains the `origin` remote above. Do not copy changes manually between the
+Run, edit, validate, commit, and generate output only from the Git root whose
+`origin` remote is the active fork, `https://github.com/psu-LiBR/MuJoCo-RFT.git`. Do not copy changes manually between the
 archive and the canonical repository.

@@ -1,5 +1,35 @@
 # Decision log
 
+## D-016 — a pip-only Python 3.11 venv is a supported alternative to Conda
+
+Date: 2026-11-20
+
+Support two equivalent runtimes: the default `lizard_rft` Conda environment
+from `environment.yml`, and a project-local `.venv/` created with a standard
+Python 3.11 interpreter and installed from `requirements.txt`.
+`requirements.txt` must list exactly the same packages and versions as the
+pip section of `environment.yml`; change both in the same commit. The setup
+scripts remain Conda-only, and venv installation is a documented manual
+procedure in `README.md` and `GUIDANCE.md`.
+
+Also record that this repository is now the fork
+`https://github.com/psu-LiBR/MuJoCo-RFT.git` of
+`https://github.com/wxy108/Lizard_robot.git`. The fork's Git root is the active
+workspace; historical records naming the upstream repository and its
+`Lizard_Robot_MuJoCo` checkout are left unchanged as provenance.
+
+Reason: Conda contributes only the Python 3.11 interpreter; every dependency
+is already a pinned pip wheel, and no project code depends on Conda (all
+subprocesses use `sys.executable`). Requiring Conda adds an installation
+barrier with no reproducibility benefit. Python 3.11 is required because the
+pinned NumPy 1.26.4 and Open3D 0.19.0 have no wheels for newer interpreters.
+No physics, mesh, controller, force convention or version pin changes.
+
+Scope of evidence: one Windows venv (uv-provided CPython 3.11.18) passed
+`python scripts/validate_project.py`, including 16/16 tests, eight mesh gates,
+13,916 force sites and rigid/RFT smoke runs. The full 6 s regression, Linux
+and macOS venvs, and video byte hashes were not checked in a venv.
+
 ## D-015 — bundle the immutable RFT-SiM reference for public deployment
 
 Date: 2026-10-08. Supersedes the submodule distribution choice in D-005.

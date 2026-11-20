@@ -19,12 +19,12 @@ for argument in "$@"; do
 done
 
 command -v conda >/dev/null 2>&1 || {
-    echo "Conda is required. Install Miniforge, initialize your shell, and rerun." >&2
+    echo "This script requires Conda. Install Miniforge, initialize your shell, and rerun it, or follow 'Install without Conda' in README.md to use a Python 3.11 venv." >&2
     exit 1
 }
 
 if [[ ! -f third_party/RFT-SiM.snapshot.json || ! -f third_party/RFT-SiM/README.md ]]; then
-    echo "Bundled RFT-SiM snapshot is missing. Download a fresh clone or ZIP of Lizard_robot." >&2
+    echo "Bundled RFT-SiM snapshot is missing. Download a fresh clone or ZIP of MuJoCo-RFT." >&2
     exit 1
 fi
 echo "[1/4] Using the bundled RFT-SiM snapshot (no upstream download)."

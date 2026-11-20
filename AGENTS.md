@@ -19,12 +19,19 @@ tests, and reproducible raw output take priority.
 
 ## Safety boundary
 
-- Use only the `lizard_rft` Conda environment for this project.
+- Run the project only in one of the two supported Python 3.11 runtimes: the
+  `lizard_rft` Conda environment (`environment.yml`) or a project-local
+  virtual environment at `.venv/` (`requirements.txt`). The two files must
+  pin identical package versions. Do not install project packages into any
+  other environment. See decision D-016.
 - Do not install into, edit, rename, remove, or activate `isaaclab_50`.
 - IsaacLab is not a dependency and is outside project scope.
-- Treat the Git root with remote `https://github.com/wxy108/Lizard_robot.git`
-  as the only active workspace. Read `docs/LOCAL_WORKSPACE_LAYOUT.md` before
-  using another similarly named local directory.
+- Treat the Git root with remote `https://github.com/psu-LiBR/MuJoCo-RFT.git`
+  as the only active workspace. It is a fork of
+  `https://github.com/wxy108/Lizard_robot.git`; historical records that name
+  the upstream repository describe the original workstation. Read
+  `docs/LOCAL_WORKSPACE_LAYOUT.md` before using another similarly named local
+  directory.
 - Do not treat `archive/` or `outputs/` as active source.
 - `third_party/RFT-SiM` is an immutable, vendored upstream snapshot, not a
   submodule. Do not edit it in place. To replace it, document the source,
@@ -37,7 +44,7 @@ tests, and reproducible raw output take priority.
 From this directory:
 
 ```powershell
-conda activate lizard_rft
+conda activate lizard_rft      # or, without Conda: .venv\Scripts\Activate.ps1
 python scripts/validate_project.py
 ```
 
