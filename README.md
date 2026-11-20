@@ -79,8 +79,8 @@ Conda for the current shell if `conda` is not found.
 ### Windows PowerShell
 
 ```powershell
-git clone https://github.com/wxy108/Lizard_robot.git
-cd Lizard_robot
+git clone https://github.com/psu-LiBR/MuJoCo-RFT.git
+cd MuJoCo-RFT
 powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
 conda activate lizard_rft
 ```
@@ -88,8 +88,8 @@ conda activate lizard_rft
 ### Linux, macOS, or WSL
 
 ```bash
-git clone https://github.com/wxy108/Lizard_robot.git
-cd Lizard_robot
+git clone [https://github.com/wxy108/Lizard_robot.git](https://github.com/psu-LiBR/MuJoCo-RFT.git)
+cd MuJoCo-RFT
 bash scripts/setup.sh
 conda activate lizard_rft
 ```
