@@ -15,8 +15,9 @@ outputs/
 Thumbs.db
 *.swp
 
+# VS Code Workspace
+.code-workspace/
+
 # Runtime logs and local download markers
 MUJOCO_LOG.TXT
 
-# VS Code Workspace
-.code-workspace
