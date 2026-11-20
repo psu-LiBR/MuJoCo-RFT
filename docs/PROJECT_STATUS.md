@@ -3,14 +3,11 @@
 Last updated: 2026-11-20. Numerical baseline measurements below are from
 2026-07-27; the deployment repair has its own verification record.
 
-## Fork and non-Conda installation
+## Fork
 
 This repository is the fork `https://github.com/psu-LiBR/MuJoCo-RFT.git` of
-`https://github.com/wxy108/Lizard_robot.git`. A pip-only Python 3.11 venv
-installed from `requirements.txt` is now a supported alternative to the
-`lizard_rft` Conda environment (decision D-016). A Windows venv passed
-`scripts/validate_project.py`. The full 6 s regression and Linux/macOS venv
-installs have not yet been checked.
+`https://github.com/wxy108/Lizard_robot.git` (decision D-016). The Conda
+environment `lizard_rft` remains the only supported runtime.
 
 ## Public download and deployment
 
@@ -49,9 +46,9 @@ history.
 
 ## Current baseline
 
-The active granular simulation runs in the Conda environment `lizard_rft`
-or an equivalent Python 3.11 venv; either also runs the original rigid-floor
-MuJoCo model. The `isaaclab_50` environment is independent and untouched.
+The active granular simulation runs in the single Conda environment
+`lizard_rft`, which also runs the original rigid-floor MuJoCo model. The
+`isaaclab_50` environment is independent and untouched.
 
 On the original upstream workstation, the single active local Git root was
 `Lizard_Robot_MuJoCo`; for this fork, see `docs/LOCAL_WORKSPACE_LAYOUT.md`.
@@ -95,8 +92,7 @@ The reporting workflow is now reproducible:
 - the reviewed production master and all nine individual MP4 files are tracked
   under `docs/media/video_matrix_production_6s/` for immediate remote viewing;
 - Windows and POSIX setup scripts deploy the pinned `lizard_rft` environment
-  and run validation from a fresh clone without local path assumptions; a
-  manual venv install from `requirements.txt` is the non-Conda alternative.
+  and run validation from a fresh clone without local path assumptions.
 - three short rejected/source-only mesh videos make former clustered RFT
   points, overlapping components, slivers, and self-intersections directly
   comparable with the accepted meshes without running invalid physics.

@@ -8,7 +8,7 @@ $ProjectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $ProjectRoot
 
 if (-not (Get-Command conda -ErrorAction SilentlyContinue)) {
-    throw "This script requires Conda. Install Miniforge, open a Miniforge/Conda PowerShell, and rerun it, or follow 'Install without Conda' in README.md to use a Python 3.11 venv."
+    throw "Conda is required. Install Miniforge, open a Miniforge/Conda PowerShell, and rerun this script."
 }
 
 if (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot "third_party\RFT-SiM.snapshot.json")) -or

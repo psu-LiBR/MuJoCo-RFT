@@ -8,12 +8,10 @@ Reproducible lizard-robot locomotion with:
 - synchronized top, side, and 45-degree videos;
 - center-of-mass, penetration, active-triangle, and component-contact
   diagnostics;
-- one pinned Python 3.11 runtime that deploys the complete project on a fresh
-  system, using either Conda or a plain Python virtual environment.
+- one Conda environment that deploys the complete project on a fresh system.
 
-MuJoCo is installed as a pip package by `environment.yml` (Conda) or
-`requirements.txt` (venv). No separate MuJoCo download or system-wide
-installation is required. IsaacLab is unrelated and is not used.
+MuJoCo is installed by `environment.yml`. No separate MuJoCo download or
+system-wide installation is required. IsaacLab is unrelated and is not used.
 
 ## See the result first
 
@@ -65,27 +63,16 @@ locomotion baseline.
 
 ## Deploy on a fresh computer
 
-There are two supported ways to install the runtime. Both install the same
-pinned packages:
-
-- **Conda (default):** the setup scripts below create the `lizard_rft`
-  environment, verify it, and run validation automatically.
-- **Python venv + pip (no Conda):** see
-  [Install without Conda](#install-without-conda-python-venv--pip). Setup is
-  manual, but needs only a standard Python 3.11 installation.
-
 ### Prerequisites
 
 Install:
 
 1. [Git](https://git-scm.com/downloads) for cloning/updating (not required for
    ZIP installation);
-2. one of:
-   - [Miniforge](https://github.com/conda-forge/miniforge), Anaconda, or
-     another working Conda distribution; **or**
-   - [Python 3.11](https://www.python.org/downloads/) (for the venv option).
+2. [Miniforge](https://github.com/conda-forge/miniforge), Anaconda, or another
+   working Conda distribution.
 
-Miniforge is the recommended lightweight Conda option. On Windows, use a
+Miniforge is the recommended lightweight option. On Windows, use a
 Miniforge/Anaconda PowerShell after installation. On Linux/macOS, initialize
 Conda for the current shell if `conda` is not found.
 
@@ -134,55 +121,7 @@ conda activate lizard_rft
 python scripts/validate_project.py
 ```
 
-### Install without Conda (Python venv + pip)
-
-Conda is not required to run the simulations; it only provides Python 3.11.
-Every project dependency is a pip package, and the same pins are listed in
-[requirements.txt](requirements.txt). Use **Python 3.11**: the pinned NumPy
-1.26.4 and Open3D 0.19.0 do not provide wheels for newer Pythons such as 3.13
-or 3.14. The `setup.ps1`/`setup.sh` scripts are Conda-only, so run these steps
-by hand.
-
-Windows PowerShell:
-
-```powershell
-git clone https://github.com/psu-LiBR/MuJoCo-RFT.git
-cd MuJoCo-RFT
-py -3.11 -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python scripts/validate_project.py
-```
-
-If PowerShell refuses to run `Activate.ps1`, run
-`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use
-`.venv\Scripts\activate.bat` from `cmd.exe` instead.
-
-Linux, macOS, or WSL:
-
-```bash
-git clone https://github.com/psu-LiBR/MuJoCo-RFT.git
-cd MuJoCo-RFT
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python scripts/validate_project.py
-```
-
-On headless Linux (no `$DISPLAY`), set `export MUJOCO_GL=egl` before running
-validation or rendering; `setup.sh` does this automatically for Conda users.
-
-If you use [uv](https://docs.astral.sh/uv/), it can download Python 3.11 for
-you instead: `uv venv --python 3.11 .venv`, activate it as above, then
-`uv pip install -r requirements.txt`.
-
-`.venv/` is already ignored by Git. In every later section, replace
-`conda activate lizard_rft` with the activation command above
-(`.venv\Scripts\Activate.ps1` or `source .venv/bin/activate`).
-
-Expected validation (either install method):
+Expected validation:
 
 - 16/16 fast tests pass;
 - eight active RFT meshes pass topology/self-intersection gates;
@@ -206,9 +145,7 @@ upstream commit. No access to `Crab-Lab-CWRU/RFT-SiM` is needed. See the
 Activate the environment and enter the cloned repository before every command:
 
 ```bash
-conda activate lizard_rft      # Conda install
-# or: source .venv/bin/activate   (venv on Linux/macOS)
-# or: .venv\Scripts\Activate.ps1  (venv on Windows PowerShell)
+conda activate lizard_rft
 cd MuJoCo-RFT
 ```
 
@@ -309,9 +246,7 @@ simulation.
 
 ## Environment
 
-The canonical [environment.yml](environment.yml) pins the following, and
-[requirements.txt](requirements.txt) mirrors the same pip pins for venv
-installs (keep the two files in sync when changing a version):
+The canonical [environment.yml](environment.yml) pins:
 
 | Dependency | Version | Purpose |
 | --- | --- | --- |
@@ -356,8 +291,7 @@ granular material.
 .
 |-- README.md                         # overview and quick deployment
 |-- GUIDANCE.md                       # complete fresh-system handbook
-|-- environment.yml                   # canonical cross-system Conda spec
-|-- requirements.txt                  # same pins for a non-Conda venv
+|-- environment.yml                  # canonical cross-system Conda spec
 |-- run.py                            # original rigid-floor runner
 |-- lizard_sand.py                    # granular RFT runner
 |-- sim_fxn_lib.py                    # vectorized 3D RFT calculations

@@ -3,28 +3,23 @@
 All notable project changes are recorded here. Git is the authoritative
 line-level record; this file explains intent and consequences.
 
-## 2026-11-20 — optional non-Conda (venv + pip) installation
+## 2026-11-20 — record the psu-LiBR/MuJoCo-RFT fork
 
-- Added `requirements.txt`, mirroring the pip pins in `environment.yml`
-  exactly, so the project can run in a plain Python 3.11 virtual environment.
-  Conda (`lizard_rft`) remains the default and the setup scripts are unchanged.
-- Documented the venv workflow in `README.md` (Windows and Linux/macOS, the
-  Python 3.11 requirement, headless `MUJOCO_GL=egl`, optional uv), and fixed
-  the fork's clone URL and `cd` directory in the README.
-- Recorded the fork (`psu-LiBR/MuJoCo-RFT` from `wxy108/Lizard_robot`) and the
-  venv runtime as decision D-016. Updated `AGENTS.md`, `GUIDANCE.md` (venv
-  install subsection, clean-room checklist, troubleshooting),
-  `docs/LOCAL_WORKSPACE_LAYOUT.md`, `docs/PROJECT_STATUS.md`,
-  `docs/TEST_AND_VALIDATION_GUIDE.md` and `docs/VIDEO_MATRIX_GUIDE.md`. Historical upstream records are kept
-  as provenance.
-- The setup scripts now name `MuJoCo-RFT` in their missing-snapshot error,
-  and their missing-Conda error points to the venv instructions. Script
-  logic is unchanged.
-- Validation: in a fresh uv-created CPython 3.11.18 venv on Windows,
-  `pip install -r requirements.txt` followed by
-  `python scripts/validate_project.py` passed (16/16 tests, eight mesh
-  gates, 13,916 force sites, rigid and RFT smoke runs). Simulation code,
-  assets and version pins are unchanged.
+- Recorded this repository as the fork `psu-LiBR/MuJoCo-RFT` of
+  `wxy108/Lizard_robot` (decision D-016). Updated `AGENTS.md`,
+  `docs/LOCAL_WORKSPACE_LAYOUT.md` and `docs/PROJECT_STATUS.md`; historical
+  upstream records are kept as provenance.
+- Fixed clone URLs and `cd` directory names in `README.md`, `GUIDANCE.md` and
+  `docs/VIDEO_MATRIX_GUIDE.md`, including a markdown link that had been
+  pasted inside the README's Linux clone command.
+- The setup scripts now name `MuJoCo-RFT` in their missing-snapshot error.
+  Script logic is unchanged.
+- Corrected a stale Level 0 acceptance line in
+  `docs/TEST_AND_VALIDATION_GUIDE.md` that still referred to the former
+  RFT-SiM submodule.
+- A pip-only venv installation (`requirements.txt`) was added in `f80808b`
+  and withdrawn the same day; Conda `lizard_rft` remains the only supported
+  runtime. Simulation code, assets and version pins are unchanged.
 
 ## 2026-10-08 — restore self-contained GitHub downloads and setup
 

@@ -19,11 +19,7 @@ tests, and reproducible raw output take priority.
 
 ## Safety boundary
 
-- Run the project only in one of the two supported Python 3.11 runtimes: the
-  `lizard_rft` Conda environment (`environment.yml`) or a project-local
-  virtual environment at `.venv/` (`requirements.txt`). The two files must
-  pin identical package versions. Do not install project packages into any
-  other environment. See decision D-016.
+- Use only the `lizard_rft` Conda environment for this project.
 - Do not install into, edit, rename, remove, or activate `isaaclab_50`.
 - IsaacLab is not a dependency and is outside project scope.
 - Treat the Git root with remote `https://github.com/psu-LiBR/MuJoCo-RFT.git`
@@ -44,7 +40,7 @@ tests, and reproducible raw output take priority.
 From this directory:
 
 ```powershell
-conda activate lizard_rft      # or, without Conda: .venv\Scripts\Activate.ps1
+conda activate lizard_rft
 python scripts/validate_project.py
 ```
 

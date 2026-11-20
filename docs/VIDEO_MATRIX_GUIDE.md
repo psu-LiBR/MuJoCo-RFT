@@ -30,7 +30,7 @@ pure camera views in a 3×3 grid and three additional row-level analysis panels.
 ## Generate
 
 ```powershell
-conda activate lizard_rft      # or, without Conda: .venv\Scripts\Activate.ps1
+conda activate lizard_rft
 cd C:\path\to\MuJoCo-RFT
 python scripts/generate_video_matrix.py --duration 6 --fps 30
 ```

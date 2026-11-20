@@ -14,17 +14,10 @@ Linux/macOS/WSL:
 bash scripts/setup.sh
 ```
 
-Without Conda (Python 3.11 venv; see `GUIDANCE.md` section 5):
-
-```bash
-python -m pip install -r requirements.txt
-python scripts/validate_project.py
-```
-
 Acceptance:
 
 - bundled RFT-SiM snapshot passes `scripts/verify_rft_snapshot.py`;
-- `lizard_rft` is created or reused, or `.venv` reports Python 3.11;
+- `lizard_rft` is created or reused;
 - all pinned top-level imports succeed;
 - Level 1 and Level 2 below pass.
 
